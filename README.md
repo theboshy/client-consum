@@ -51,7 +51,7 @@ POST("/debug/pprof/symbol")
 GET("/debug/pprof/trace")
 GET("/debug/pprof/mutex")
 ```
-### Uso
+### Uso de profiler
 ```sh
 $  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/profile/
 ```
