@@ -45,7 +45,7 @@ http://xxx.xxx.xx.xx:xxxx
 ```
 
 ```sh
-curl http://xxx.xxx.xx.xx:xxxx/gcd/6/2
+$ curl http://xxx.xxx.xx.xx:xxxx/gcd/6/2
 ```
 
 
