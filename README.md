@@ -86,7 +86,7 @@ Descargar
 [Graphviz](https://graphviz.gitlab.io/download/)
 
 Descargar e instalar con [python](https://www.python.org/) 
-<img  width="35" heigth="35" src="http://www.pngall.com/wp-content/uploads/2016/05/Python-Logo-PNG-Image.png">
+<img  width="35" heigth="35" src="http://www.pngall.com/wp-content/uploads/2016/05/Python-Logo-Free-Download-PNG.png">
 ```sh
 $ pip install graphviz
 ```
