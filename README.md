@@ -7,10 +7,12 @@ Despues de resolver la solicitud por **API REST** , se conectara mediante el pro
 en *kuberproject*
 
 ### Requerimientos 
-* [Minikube](https://github.com/kubernetes/minikube) - (mini) servicio local de kubernetes 
-* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) - herramienta de línea de comandos de Kubernetes 
-* [ProtoBufCompiler](https://github.com/google/protobuf) - compilador de proto buf
+* [Minikube](https://github.com/kubernetes/minikube) - (mini) servicio local de *kubernetes* 
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) - herramienta de línea de **comandos** *(cli)* de *Kubernetes*
+* [ProtoBufCompiler](https://github.com/google/protobuf) - compilador de **proto buf**
 * [GoProtoBufCompiler](https://github.com/golang/protobuf) - compilador de proto buf para **golang**
+* [VirtualBox](https://www.virtualbox.org/) - creador de **maquinas virtuales** para *win*
+
 
 ### Build
 
@@ -25,10 +27,28 @@ $ eval $(minikube docker-env)
 #generar la imagen con el servicio ClientConsum
 $ docker build -t [<docker_image_name>] -f Dockerfile.api .
 
-#generar el nodo contenedor del servicio cconsum
+#generar el nodo contenedor del servicio cconsum 
 $ kubectl apply -f api-deployment.yaml
 
 ```
+### Archivos descriptores
+[deployment.yaml](https://github.com/theboshy/ClientConsum/blob/master/api-deployment.yaml)
+[Dockerfile.api](https://github.com/theboshy/ClientConsum/blob/master/Dockerfile.api)
+
+
+### Test
+Para comunicarce con el *api* es necesario conocer su ubicacion dentro del `minikube cluster`
+```sh
+$ minikube service api-service --url
+http://xxx.xxx.xx.xx:xxxx
+```
+
+```sh
+curl http://xxx.xxx.xx.xx:xxxx/gcd/6/2
+```
+
+
+-----
 
 > support **[net/http/pprof]**
 
