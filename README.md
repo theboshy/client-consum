@@ -85,9 +85,16 @@ $  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/heap/
 Descargar
 [Graphviz](https://graphviz.gitlab.io/download/)
 
-Descargar e instalar con [python](https://www.python.org/)
+Descargar e instalar con [python](https://www.python.org/) 
+<img  width="35" heigth="35" src="http://www.pngall.com/wp-content/uploads/2016/05/Python-Logo-PNG-Image.png">
 ```sh
 $ pip install graphviz
+```
+Descargar e instalar con [chocolatey](https://chocolatey.org/) 
+<img width="35" heigth="35" src="https://user-images.githubusercontent.com/14255055/38960311-a713a5f8-4329-11e8-9d01-aeb43bc1d511.png">
+
+```sh
+$ choco install graphviz
 ```
 
 
