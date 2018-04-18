@@ -1,4 +1,4 @@
-# ClientConsum
+# Client Consum API
 Api client para KuberProject con servicios rest implementando el framework gin-gonic
 
 Es servicio se encarga de consumir a <a href="https://github.com/theboshy/KuberProject"> **KuberProject** </a> <img style="display:inline-block" width="40" heigth="40" src="https://png.icons8.com/ios/50/000000/developer.png">
