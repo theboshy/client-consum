@@ -54,6 +54,7 @@ curl http://xxx.xxx.xx.xx:xxxx/gcd/6/2
 > support **[net/http/pprof]**
 
 ### Instalar pprof
+[net/http/pprof](https://golang.org/pkg/net/http/pprof/)
 ```sh
 $ go get github.com/DeanThompson/ginpprof
 ```
@@ -75,4 +76,30 @@ GET("/debug/pprof/mutex")
 ### Uso de profiler
 ```sh
 $  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/profile/
+$  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/heap/
 ```
+
+### Generar Graficas con Graphviz2.38
+Descargar
+[Graphviz](https://graphviz.gitlab.io/download/)
+
+Descargar e instalar con [python](https://www.python.org/)
+```sh
+$ pip install graphviz
+```
+
+
+### Instalar 
+Crear variable de entorno para **graphviz** en *path*
+
+![captura](https://user-images.githubusercontent.com/14255055/38958417-cf0b53e6-4322-11e8-993b-df7850a63518.PNG)
+
+### Usar Profiler con Graphviz
+```sh
+$ go tool pprof goprofex http://xxx.xxx.xx.xx:xxxx/profiler/debug/pprof/profile/
+..... Entering interactive mode 
+$ (pprof) web
+
+```
+
+![captura](https://user-images.githubusercontent.com/14255055/38959396-26b2e0ac-4326-11e8-9ac0-d1827aed1357.PNG)
