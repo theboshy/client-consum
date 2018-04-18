@@ -1,26 +1,38 @@
 # Client Consum API
 Api client para KuberProject con servicios rest implementando el framework gin-gonic
 
-Es servicio se encarga de consumir a <a href="https://github.com/theboshy/KuberProject"> **KuberProject** </a> <img style="display:inline-block" width="40" heigth="40" src="https://png.icons8.com/ios/50/000000/developer.png">
+Este servicio se encarga de consumir a <a href="https://github.com/theboshy/KuberProject"> **KuberProject** </a> <img style="display:inline-block" width="40" heigth="40" src="https://png.icons8.com/ios/50/000000/developer.png">, por medio de coneccion **rpc**
 
-Despues de resolver la solicitud por **API REST** , se conectara mediante el protocolo **buf** , por *RPC* a el servidor rpc/**tcp** 
+Despues de resolver la solicitud por **API REST** , se conectara mediante el protocolo **buf** , a el servidor **tcp** 
 en *kuberproject*
+
+### Requerimientos 
+* [Minikube](https://github.com/kubernetes/minikube) - (mini) servicio local de kubernetes 
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) - herramienta de línea de comandos de Kubernetes 
+* [ProtoBufCompiler](https://github.com/google/protobuf) - compilador de proto buf
+* [GoProtoBufCompiler](https://github.com/golang/protobuf) - compilador de proto buf para **golang**
+
+### Build
 
 ```sh
 $ cd ./[<project_path>]
 
+# cosntruir protobuf *pb*
 $ protoc -I ./mcs --go_out=plugins=grpc:./pb ./mcs/*.proto
 
+#minikube mantiene un servicio docker el cual podemos usar para generar nuestro contenedor e imagen
 $ eval $(minikube docker-env)
+#generar la imagen con el servicio ClientConsum
 $ docker build -t [<docker_image_name>] -f Dockerfile.api .
 
+#generar el nodo contenedor del servicio cconsum
 $ kubectl apply -f api-deployment.yaml
 
 ```
 
 > support **[net/http/pprof]**
 
-### Instalar 
+### Instalar pprof
 ```sh
 $ go get github.com/DeanThompson/ginpprof
 ```
