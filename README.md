@@ -74,7 +74,7 @@ GET("/debug/pprof/trace")
 GET("/debug/pprof/mutex")
 ```
 ### Uso de profiler
-> Nota : este ejemplo se muestra fuera del `cluster` de `minikube`localmente
+> Nota : este ejemplo se muestra fuera del `cluster` de `minikube` localmente
 
 ```sh
 $  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/profile/
