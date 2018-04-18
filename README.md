@@ -33,6 +33,7 @@ $ kubectl apply -f api-deployment.yaml
 ```
 ### Archivos descriptores
 [deployment.yaml](https://github.com/theboshy/ClientConsum/blob/master/api-deployment.yaml)
+
 [Dockerfile.api](https://github.com/theboshy/ClientConsum/blob/master/Dockerfile.api)
 
 
