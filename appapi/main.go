@@ -9,11 +9,13 @@ import (
 	"log"
 	"ClientConsum/mcs"
 	"net/http/pprof"
+	"io/ioutil"
 )
 
 func main() {
 	/*targetport (yaml config) : gcd-service:3001*/
-	conn, err := grpc.Dial("gcd-service:3001", grpc.WithInsecure())
+	/*targetport (local config) : :3001*/
+	conn, err := grpc.Dial(":3001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Dial failed: %v", err)
 	}
@@ -49,6 +51,27 @@ func main() {
 		if res, err := gcdClient.Compute(c, req); err == nil {
 			c.JSON(http.StatusOK, gin.H{
 				"result": fmt.Sprint(res.Result),
+			})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+	})
+
+	r.POST("/gcd/file", func(c *gin.Context) {
+
+		file, err := c.FormFile("file")
+		reda,_ :=file.Open()
+		byteContainer, err := ioutil.ReadAll(reda)
+		fmt.Print(len(byteContainer))
+		if err != nil {
+			c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
+			return
+		}
+		req := &mcs.FileRequest{BinaryFile:byteContainer,FileSize:file.Size,FileName:file.Filename}
+		if res, err := gcdClient.SaveFile(c, req); err == nil {
+			c.JSON(http.StatusOK, gin.H{
+				"outputpath": fmt.Sprint(res.OutPath),
+				"message": fmt.Sprint(res.Message),
 			})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
