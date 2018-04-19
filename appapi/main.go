@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	/*targetport (yaml config) : gcd-service:3001*/
+	/*targetport (node/yaml config) : gcd-service:3001*/
 	/*targetport (local config) : :3001*/
 	conn, err := grpc.Dial(":3001", grpc.WithInsecure())
 	if err != nil {
@@ -36,13 +36,13 @@ func main() {
 		profilerGroup.GET("/debug/pprof/trace", TraceHandler())
 		profilerGroup.GET("/debug/pprof/mutex", MutexHandler())
 	}
-	r.GET("/gcd/:firstNumber/:secondNumber", func(c *gin.Context) {
-		a, err := strconv.ParseUint(c.Param("firstNumber"), 10, 64)
+	r.GET("/gcd/compute", func(c *gin.Context) {
+		a, err := strconv.ParseUint(c.Query("firstNumber"), 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid parameter A"})
 			return
 		}
-		b, err := strconv.ParseUint(c.Param("secondNumber"), 10, 64)
+		b, err := strconv.ParseUint(c.Query("secondNumber"), 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid parameter B"})
 			return
@@ -60,9 +60,13 @@ func main() {
 	r.POST("/gcd/file", func(c *gin.Context) {
 
 		file, err := c.FormFile("file")
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid parameter file"})
+			return
+		}
 		reda,_ :=file.Open()
 		byteContainer, err := ioutil.ReadAll(reda)
-		fmt.Print(len(byteContainer))
+		//fmt.Print(len(byteContainer))
 		if err != nil {
 			c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
 			return
@@ -77,6 +81,10 @@ func main() {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
 	})
+
+
+
+
 
 	if err := r.Run(":3000"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
