@@ -1,20 +1,25 @@
 package main
 
 import (
-	"log"
-	"net/http/pprof"
-
+	"ClientConsum/mcs"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/http/pprof"
+	"strconv"
 )
 
 func main() {
 	/*targetport (node/yaml config) : gcd-service:3001*/
 	/*targetport (local config) : :3001*/
-	/*conn, err := grpc.Dial(":3001", grpc.WithInsecure())
+	conn, err := grpc.Dial(":3001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Dial failed: %v", err)
 	}
-	gcdClient := mcs.NewGCDServiceClient(conn)*/
+	gcdClient := mcs.NewGCDServiceClient(conn)
 
 	r := gin.Default()
 	profilerGroup := r.Group("/profiler")
@@ -31,7 +36,7 @@ func main() {
 		profilerGroup.GET("/debug/pprof/trace", TraceHandler())
 		profilerGroup.GET("/debug/pprof/mutex", MutexHandler())
 	}
-	/*r.GET("/gcd/compute", func(c *gin.Context) {
+	r.GET("/gcd/compute", func(c *gin.Context) {
 		a, err := strconv.ParseUint(c.Query("firstNumber"), 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid parameter A"})
@@ -50,9 +55,9 @@ func main() {
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
-	})*/
+	})
 
-	/*r.POST("/gcd/file", func(c *gin.Context) {
+	r.POST("/gcd/file", func(c *gin.Context) {
 
 		file, err := c.FormFile("file")
 		if err != nil {
@@ -75,7 +80,7 @@ func main() {
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
-	})*/
+	})
 
 	if err := r.Run(":3000"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
