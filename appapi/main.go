@@ -1,25 +1,20 @@
 package main
 
 import (
-	"google.golang.org/grpc"
-	"github.com/gin-gonic/gin"
-	"strconv"
-	"net/http"
-	"fmt"
 	"log"
-	"ClientConsum/mcs"
 	"net/http/pprof"
-	"io/ioutil"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	/*targetport (node/yaml config) : gcd-service:3001*/
 	/*targetport (local config) : :3001*/
-	conn, err := grpc.Dial(":3001", grpc.WithInsecure())
+	/*conn, err := grpc.Dial(":3001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Dial failed: %v", err)
 	}
-	gcdClient := mcs.NewGCDServiceClient(conn)
+	gcdClient := mcs.NewGCDServiceClient(conn)*/
 
 	r := gin.Default()
 	profilerGroup := r.Group("/profiler")
@@ -36,7 +31,7 @@ func main() {
 		profilerGroup.GET("/debug/pprof/trace", TraceHandler())
 		profilerGroup.GET("/debug/pprof/mutex", MutexHandler())
 	}
-	r.GET("/gcd/compute", func(c *gin.Context) {
+	/*r.GET("/gcd/compute", func(c *gin.Context) {
 		a, err := strconv.ParseUint(c.Query("firstNumber"), 10, 64)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid parameter A"})
@@ -55,36 +50,32 @@ func main() {
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
-	})
+	})*/
 
-	r.POST("/gcd/file", func(c *gin.Context) {
+	/*r.POST("/gcd/file", func(c *gin.Context) {
 
 		file, err := c.FormFile("file")
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid parameter file"})
 			return
 		}
-		reda,_ :=file.Open()
+		reda, _ := file.Open()
 		byteContainer, err := ioutil.ReadAll(reda)
 		//fmt.Print(len(byteContainer))
 		if err != nil {
 			c.String(http.StatusBadRequest, fmt.Sprintf("get form err: %s", err.Error()))
 			return
 		}
-		req := &mcs.FileRequest{BinaryFile:byteContainer,FileSize:file.Size,FileName:file.Filename}
+		req := &mcs.FileRequest{BinaryFile: byteContainer, FileSize: file.Size, FileName: file.Filename}
 		if res, err := gcdClient.SaveFile(c, req); err == nil {
 			c.JSON(http.StatusOK, gin.H{
 				"outputpath": fmt.Sprint(res.OutPath),
-				"message": fmt.Sprint(res.Message),
+				"message":    fmt.Sprint(res.Message),
 			})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
-	})
-
-
-
-
+	})*/
 
 	if err := r.Run(":3000"); err != nil {
 		log.Fatalf("Failed to run server: %v", err)

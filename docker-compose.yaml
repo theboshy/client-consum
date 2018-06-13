@@ -1,0 +1,5 @@
+clientconsum:
+  build: ./
+  ports:
+    #publish_port:docker_port
+    - 61111:3000
