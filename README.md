@@ -1,4 +1,6 @@
-[![Go Report Card](https://goreportcard.com/badge/gojp/goreportcard)](https://goreportcard.com/report/github.com/theboshy/ClientConsum) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gojp/goreportcard/blob/master/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/gojp/goreportcard)](https://goreportcard.com/report/github.com/theboshy/ClientConsum) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gojp/goreportcard/blob/master/LICENSE) <a href="https://github.com/theboshy/ClientConsum/stargazers">
+    <img src="https://img.shields.io/github/stars/theboshy/ClientConsum.svg?style=social" alt="GitHub stars">
+  </a>
 
 
 # Client Consum API <img style="display:inline-block" width="40" heigth="40" src="https://user-images.githubusercontent.com/14255055/38960106-d2fb221e-4328-11e8-85b7-ca809bf39918.png">
