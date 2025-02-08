@@ -1,121 +1,160 @@
-[![Go Report Card](https://goreportcard.com/badge/gojp/goreportcard)](https://goreportcard.com/report/github.com/theboshy/ClientConsum) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gojp/goreportcard/blob/master/LICENSE) <a href="https://github.com/theboshy/ClientConsum/stargazers">
-    <img src="https://img.shields.io/github/stars/theboshy/ClientConsum.svg?style=social" alt="GitHub stars">
-  </a>
-  
-  [DOCKERHUB](https://hub.docker.com/r/devile/clientconsum/)
+[![Go Report Card](https://goreportcard.com/badge/gojp/goreportcard)](https://goreportcard.com/report/github.com/theboshy/ClientConsum) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gojp/goreportcard/blob/master/LICENSE) [![GitHub Stars](https://img.shields.io/github/stars/theboshy/ClientConsum.svg?style=social)](https://github.com/theboshy/ClientConsum/stargazers)
 
+[![DockerHub](https://img.shields.io/badge/DockerHub-ClientConsum-blue)](https://hub.docker.com/r/devile/clientconsum/)
 
-# Client Consum API <img style="display:inline-block" width="40" heigth="40" src="https://user-images.githubusercontent.com/14255055/38960106-d2fb221e-4328-11e8-85b7-ca809bf39918.png">
-Api client para KuberProject con servicios rest implementando el framework gin-gonic
+---
 
-Este servicio se encarga de consumir a <a href="https://github.com/theboshy/KuberProject"> **KuberProject** </a> <img style="display:inline-block" width="40" heigth="40" src="https://png.icons8.com/ios/50/000000/developer.png">, por medio de conexion **rpc**
+# Client Consum API 🚀
 
-Despues de resolver la solicitud por **API REST** , se conectara mediante el protocolo **buf** , a el servidor **tcp** 
-en *kuberproject*
+Client Consum API es un servicio REST implementado con el framework **Gin-Gonic** para el proyecto **KuberProject**. 
+Este servicio actúa como un cliente que consume datos de [KuberProject](https://github.com/theboshy/KuberProject) a través de una conexión **RPC**.
 
-### Requerimientos 
-* [Minikube](https://github.com/kubernetes/minikube) - (mini) servicio local de *kubernetes* 
-* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) - herramienta de línea de **comandos** *(cli)* de *Kubernetes*
-* [ProtoBufCompiler](https://github.com/google/protobuf) - compilador de **proto buf**
-* [GoProtoBufCompiler](https://github.com/golang/protobuf) - compilador de proto buf para **golang**
-* [VirtualBox](https://www.virtualbox.org/) - creador de **maquinas virtuales** para *win*
+Tras recibir una solicitud a través de **API REST**, el servicio se conecta mediante el protocolo **Buf** al servidor **TCP** alojado en *KuberProject*.
 
+---
 
-### Build
+## 📌 Requisitos
+
+Asegúrate de tener instaladas las siguientes herramientas antes de comenzar:
+
+- ✅ [Minikube](https://github.com/kubernetes/minikube) - Entorno local para Kubernetes
+- ✅ [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) - CLI para Kubernetes
+- ✅ [ProtoBuf Compiler](https://github.com/google/protobuf) - Compilador de **Protocol Buffers**
+- ✅ [GoProtoBuf Compiler](https://github.com/golang/protobuf) - Compilador de **Protocol Buffers** para Golang
+- ✅ [VirtualBox](https://www.virtualbox.org/) - Virtualización de máquinas
+
+---
+
+## ⚙️ Construcción y Despliegue
+
+Ejecuta los siguientes comandos para construir y desplegar el servicio en Kubernetes:
 
 ```sh
+# Navega al directorio del proyecto
 $ cd ./[<project_path>]
 
-# cosntruir protobuf *pb*
+# Construcción de archivos protobuf (pb)
 $ protoc -I ./mcs --go_out=plugins=grpc:./pb ./mcs/*.proto
 
-#minikube mantiene un servicio docker el cual podemos usar para generar nuestro contenedor e imagen
+# Configurar el entorno Docker en Minikube
 $ eval $(minikube docker-env)
-#generar la imagen con el servicio ClientConsum
+
+# Construcción de la imagen Docker
 $ docker build -t [<docker_image_name>] -f Dockerfile.api .
 
-#generar el nodo contenedor del servicio cconsum 
+# Desplegar en Kubernetes
 $ kubectl apply -f api-deployment.yaml
-
 ```
-### Archivos descriptores
-[deployment.yaml](https://github.com/theboshy/ClientConsum/blob/master/api-deployment.yaml)
 
-[Dockerfile.api](https://github.com/theboshy/ClientConsum/blob/master/Dockerfile.api)
+---
 
+## 📂 Archivos de Configuración
 
-### Test
-Para comunicarce con el *api* es necesario conocer su ubicacion dentro del `minikube cluster`
+- 📄 [Deployment YAML](https://github.com/theboshy/ClientConsum/blob/master/api-deployment.yaml)
+- 📄 [Dockerfile API](https://github.com/theboshy/ClientConsum/blob/master/Dockerfile.api)
+
+---
+
+## 🔥 Endpoints de la API
+
+Los endpoints disponibles en la API son los siguientes:
+
+### 📌 Obtener el MCD de dos números
+**Endpoint:**
+```http
+GET /gcd/{a}/{b}
+```
+**Ejemplo de uso:**
+```sh
+$ curl http://<API_URL>/gcd/6/2
+```
+**Respuesta:**
+```json
+{
+  "result": 2
+}
+```
+
+### 📌 Obtener la URL del servicio en Minikube
+**Comando:**
 ```sh
 $ minikube service api-service --url
+```
+**Salida esperada:**
+```sh
 http://xxx.xxx.xx.xx:xxxx
 ```
 
-```sh
-$ curl http://xxx.xxx.xx.xx:xxxx/gcd/6/2
-```
+---
 
+## 🔍 Soporte para **net/http/pprof**
 
------
+### 📥 Instalación de pprof
 
-> support **[net/http/pprof]**
-
-### Instalar pprof
 [net/http/pprof](https://golang.org/pkg/net/http/pprof/)
+
 ```sh
 $ go get github.com/DeanThompson/ginpprof
 ```
 
-### Profiler End-routers
-``` go
-GET("/debug/pprof/")
-GET("/debug/pprof/heap")
-GET("/debug/pprof/goroutine")
-GET("/debug/pprof/block")
-GET("/debug/pprof/threadcreate")
-GET("/debug/pprof/cmdline")
-GET("/debug/pprof/profile")
-GET("/debug/pprof/symbol")
-POST("/debug/pprof/symbol")
-GET("/debug/pprof/trace")
-GET("/debug/pprof/mutex")
-```
-### Uso de profiler
-> Nota : este ejemplo se muestra fuera del `cluster` de `minikube` localmente
+### 📌 Rutas de Perfilado (Profiler)
+
+| Método | Ruta |
+|--------|--------------------------------|
+| GET | `/debug/pprof/` |
+| GET | `/debug/pprof/heap` |
+| GET | `/debug/pprof/goroutine` |
+| GET | `/debug/pprof/block` |
+| GET | `/debug/pprof/threadcreate` |
+| GET | `/debug/pprof/cmdline` |
+| GET | `/debug/pprof/profile` |
+| GET | `/debug/pprof/symbol` |
+| POST | `/debug/pprof/symbol` |
+| GET | `/debug/pprof/trace` |
+| GET | `/debug/pprof/mutex` |
+
+### 📌 Uso del profiler
+
+Ejemplo de uso fuera del clúster de **Minikube**:
 
 ```sh
-$  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/profile/
-$  go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/heap/
+$ go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/profile/
+$ go tool pprof goprofex http://localhost:3000/profiler/debug/pprof/heap/
 ```
 
-### Generar Graficas con Graphviz2.38
-Descargar
-[Graphviz](https://graphviz.gitlab.io/download/)
+---
 
-Descargar e instalar con [python](https://www.python.org/) 
-<img  width="35" heigth="35" src="http://www.pngall.com/wp-content/uploads/2016/05/Python-Logo-Free-Download-PNG.png">
+## 📊 Generación de Gráficos con Graphviz
+
+### 📥 Instalación de Graphviz 2.38
+
+#### Usando **pip**
+
 ```sh
 $ pip install graphviz
 ```
-Descargar e instalar con [chocolatey](https://chocolatey.org/) 
-<img width="35" heigth="35" src="https://user-images.githubusercontent.com/14255055/38960311-a713a5f8-4329-11e8-9d01-aeb43bc1d511.png">
+
+#### Usando **Chocolatey**
 
 ```sh
 $ choco install graphviz
 ```
 
+Configura la variable de entorno para **Graphviz** en el *PATH* del sistema.
 
-### Instalar 
-Crear variable de entorno para **graphviz** en *path*
+![Configuración del PATH](https://user-images.githubusercontent.com/14255055/38958417-cf0b53e6-4322-11e8-993b-df7850a63518.PNG)
 
-![captura](https://user-images.githubusercontent.com/14255055/38958417-cf0b53e6-4322-11e8-993b-df7850a63518.PNG)
+### 📌 Uso del Profiler con Graphviz
 
-### Usar Profiler con Graphviz
 ```sh
 $ go tool pprof goprofex http://xxx.xxx.xx.xx:xxxx/profiler/debug/pprof/profile/
-..... Entering interactive mode 
 $ (pprof) web
-
 ```
 
-![captura](https://user-images.githubusercontent.com/14255055/38959396-26b2e0ac-4326-11e8-9ac0-d1827aed1357.PNG)
+![Ejemplo de gráfica](https://user-images.githubusercontent.com/14255055/38959396-26b2e0ac-4326-11e8-9ac0-d1827aed1357.PNG)
+
+---
+
+## 📝 Licencia
+
+Este proyecto está licenciado bajo la [Licencia Apache 2.0](https://github.com/gojp/goreportcard/blob/master/LICENSE).
